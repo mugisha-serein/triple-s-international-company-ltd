@@ -4,21 +4,25 @@ import './index.css'
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 
-import Navbar from "./components/layouts/Navbar";
-import Footer from "./components/layouts/Footer";
-
 import Home from "./pages/Home";
+import Products from "./pages/Products";
+
+import Navbar from "./layouts/Navbar";
+import Footer from "./layouts/Footer";
 
 const App: React.FC = () => {
   return (
     <Router>
-       {/* Navbar */}
-        <Navbar />
+      {/* Navbar */}
+      <Navbar />
 
       <Routes>
+        
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+
         <Route path="/" element={<Home />} />
+        <Route path="/products" element={<Products />} />
       </Routes>
 
       {/* Footer */}

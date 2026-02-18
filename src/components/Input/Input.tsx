@@ -46,7 +46,7 @@ const Input: React.FC<InputProps> = ({
             ${rightIcon ? "pr-10" : ""}
             ${localError
               ? "border-red-500 focus:ring-2 focus:ring-red-300"
-              : "border-gray-300 focus:ring-2 focus:ring-sky-300"}
+              : "border-gray-200 focus:ring-2 focus:ring-primary-300"}
             ${className}
           `}
           aria-invalid={!!localError}

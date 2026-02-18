@@ -8,7 +8,7 @@ import { FaFacebookF } from "react-icons/fa";
 import Input from "../components/Input/Input";
 import PasswordInput from "../components/Input/PasswordInput";
 import Button from "../components/Button/Button";
-import HeroSection from "../components/Auth/HeroSection";
+import HeroSection from "../features/auth/components/HeroSection";
 
 // Validation schema
 const registerSchema = z
@@ -109,10 +109,10 @@ const Register: React.FC = () => {
           </form>
 
           {/* Links */}
-          <div className="flex justify-between text-sm text-gray-500 px-1">
+          <div className="flex justify-between text-sm text-slate-500 px-1">
             <a
               href="/"
-              className="hover:text-sky-600 font-medium transition-colors"
+              className="hover:text-primary-600 font-medium transition-colors"
             >
               Already have an account?
             </a>
