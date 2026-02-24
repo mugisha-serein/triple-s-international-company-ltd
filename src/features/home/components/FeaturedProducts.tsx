@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
-import { FaHeart, FaStar, FaEye, FaExchangeAlt, FaShoppingCart } from "react-icons/fa";
+import { FaHeart, FaStar, FaEye, FaShoppingCart } from "react-icons/fa";
 
 interface Product {
   id: number;

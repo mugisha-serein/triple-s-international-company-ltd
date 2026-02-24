@@ -31,7 +31,7 @@ const ProductsToolbar: React.FC<ProductsToolbarProps> = ({
           value={search}
           onChange={(e) => onSearch(e.target.value)}
           placeholder="SEARCH OUR COLLECTIONS..."
-          className="w-full pl-14 pr-6 py-4 bg-white border border-slate-100 rounded-2xl text-[11px] font-black uppercase tracking-[0.2em] text-slate-900 placeholder:text-slate-300 focus:outline-none focus:border-primary-600 focus:ring-4 focus:ring-primary-600/5 transition-all duration-300 shadow-sm"
+          className="w-full pl-14 pr-4 py-4 bg-white border border-slate-100 rounded-2xl text-[11px] font-black uppercase tracking-[0.2em] text-slate-900 placeholder:text-slate-300 focus:outline-none focus:border-primary-600 focus:ring-4 focus:ring-primary-600/5 transition-all duration-300 shadow-sm"
         />
       </div>
 
