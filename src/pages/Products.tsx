@@ -1,38 +1,64 @@
 import { useMemo, useState } from "react";
 import ProductsHeader from "../features/products/components/ProductsHeader";
 import ProductsToolbar from "../features/products/components/ProductsToolbar";
-import ProductsFilters from "../features/products/components/ProductsFilters";
+import ProductsFilters, { type FiltersState } from "../features/products/components/ProductsFilters";
 import ProductsGrid from "../features/products/components/ProductsGrid";
 import ProductsPagination from "../features/products/components/ProductsPagination";
-import productsData from "../hooks/products"; // your existing structure
+import productsData from "../hooks/products";
 
-const ITEMS_PER_PAGE = 12;
+const ITEMS_PER_PAGE = 9;
 
 const Products = () => {
-  // 🔹 Core state
   const [search, setSearch] = useState("");
-  const [category, setCategory] = useState<string | null>(null);
   const [sort, setSort] = useState("latest");
   const [currentPage, setCurrentPage] = useState(1);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [filters, setFilters] = useState<FiltersState>({});
 
-  // 🔹 Derived: filtered + sorted
+  const brands = useMemo(
+    () => Array.from(new Set(productsData.map((product) => product.brand))),
+    [],
+  );
+
   const processedProducts = useMemo(() => {
     let result = [...productsData];
 
-    // SEARCH
-    if (search) {
+    if (search.trim()) {
       result = result.filter((p) =>
-        p.name.toLowerCase().includes(search.toLowerCase())
+        p.name.toLowerCase().includes(search.toLowerCase()) ||
+        p.brand.toLowerCase().includes(search.toLowerCase()),
       );
     }
 
-    // CATEGORY
-    if (category) {
-      result = result.filter((p) => p.category === category);
+    if (filters.category) {
+      result = result.filter((p) => p.category === filters.category);
     }
 
-    // SORT
+    if (filters.brand) {
+      result = result.filter((p) => p.brand === filters.brand);
+    }
+
+    if (typeof filters.priceMin === "number") {
+      result = result.filter((p) => p.price >= filters.priceMin!);
+    }
+
+    if (typeof filters.priceMax === "number") {
+      result = result.filter((p) => p.price <= filters.priceMax!);
+    }
+
+    if (filters.rating) {
+      const minRating = Number(filters.rating);
+      result = result.filter((p) => p.rating >= minRating);
+    }
+
+    if (filters.inStock) {
+      result = result.filter((p) => p.inStock);
+    }
+
+    if (filters.onSale) {
+      result = result.filter((p) => p.onSale);
+    }
+
     switch (sort) {
       case "price-low":
         result.sort((a, b) => a.price - b.price);
@@ -41,16 +67,16 @@ const Products = () => {
         result.sort((a, b) => b.price - a.price);
         break;
       case "rating":
-        result.sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0));
+        result.sort((a, b) => b.rating - a.rating);
         break;
       default:
+        result.sort((a, b) => b.id - a.id);
         break;
     }
 
     return result;
-  }, [search, category, sort]);
+  }, [search, filters, sort]);
 
-  // 🔹 Pagination
   const totalPages = Math.ceil(processedProducts.length / ITEMS_PER_PAGE);
 
   const paginatedProducts = useMemo(() => {
@@ -58,7 +84,6 @@ const Products = () => {
     return processedProducts.slice(start, start + ITEMS_PER_PAGE);
   }, [processedProducts, currentPage]);
 
-  // 🔹 Reset page on filter change (IMPORTANT)
   const handleFilterChange = (cb: () => void) => {
     cb();
     setCurrentPage(1);
@@ -78,30 +103,26 @@ const Products = () => {
 
       <div className="flex gap-8 mt-8">
         <ProductsFilters
-          filters={{
-            category: category ?? "",
-            priceRange: [0, 1000], // or your default
-            rating: "",
-            inStock: false,
-            onSale: false,
-          }}
+          filters={filters}
+          brands={brands}
           isMobileOpen={isFilterOpen}
           onClose={() => setIsFilterOpen(false)}
-          onChange={(newFilters) => {
-            setCategory(newFilters.category ?? null);
-            // handle other filters if you implement them later
-            setCurrentPage(1); // reset page
+          onChange={(nextFilters) => {
+            setFilters(nextFilters);
+            setCurrentPage(1);
           }}
         />
 
         <ProductsGrid products={paginatedProducts} loading={false} />
       </div>
 
-      <ProductsPagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={setCurrentPage}
-      />
+      {totalPages > 1 && (
+        <ProductsPagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
+        />
+      )}
     </div>
   );
 };
