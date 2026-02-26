@@ -15,20 +15,17 @@ const loginSchema = z.object({
   password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
-type LoginFormInputs = z.infer<typeof loginSchema>;
 
 const Login: React.FC = () => {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<LoginFormInputs>({
+  } = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
   });
 
-  const onSubmit = async (data: LoginFormInputs) => {
-    console.log("Login data:", data);
-    // API call placeholder
+  const onSubmit = async () => {
     return new Promise((resolve) => setTimeout(resolve, 1000));
   };
 

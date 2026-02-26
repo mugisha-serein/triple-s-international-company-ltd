@@ -3,7 +3,7 @@ import Input from "./Input";
 import type { InputProps } from "./Input.types";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 
-interface PasswordInputProps extends Omit<InputProps, "type"> {}
+type PasswordInputProps = Omit<InputProps, "type">;
 
 const PasswordInput: React.FC<PasswordInputProps> = ({
   rightIcon,

@@ -23,7 +23,6 @@ const registerSchema = z
     path: ["confirmPassword"],
   });
 
-type RegisterFormInputs = z.infer<typeof registerSchema>;
 
 const Register: React.FC = () => {
   const [loading, setLoading] = useState(false);
@@ -32,14 +31,12 @@ const Register: React.FC = () => {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<RegisterFormInputs>({
+  } = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
   });
 
-  const onSubmit = async (data: RegisterFormInputs) => {
+  const onSubmit = async () => {
     setLoading(true);
-    console.log("Register data:", data);
-    // Simulate API call
     return new Promise((resolve) =>
       setTimeout(() => {
         setLoading(false);
@@ -111,7 +108,7 @@ const Register: React.FC = () => {
           {/* Links */}
           <div className="flex justify-between text-sm text-slate-500 px-1">
             <a
-              href="/"
+              href="/login"
               className="hover:text-primary-600 font-medium transition-colors"
             >
               Already have an account?

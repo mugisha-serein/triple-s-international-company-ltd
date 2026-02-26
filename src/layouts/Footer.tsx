@@ -27,8 +27,8 @@ const Footer: React.FC = () => {
             Triple S <span className="text-primary-500">Intl.</span>
           </h2>
           <p className="text-slate-400 leading-relaxed text-sm md:text-base max-w-sm">
-            Quality products, fast delivery, and trusted service worldwide.
-            Shop with confidence — secure checkout and premium customer support.
+            Computer repair experts with trusted desktop, laptop, and printer sales.
+            Shop with confidence — professional support and dependable service.
           </p>
 
           {/* Social Icons */}
@@ -37,7 +37,7 @@ const Footer: React.FC = () => {
               (Icon, index) => (
                 <a
                   key={index}
-                  href="#"
+                  href="/"
                   aria-label="social-link"
                   className="w-10 h-10 flex items-center justify-center rounded-xl bg-slate-900 border border-slate-800 text-slate-400 hover:bg-primary-600 hover:text-white hover:border-primary-500 hover:-translate-y-1 transition-all duration-300"
                 >
@@ -54,12 +54,12 @@ const Footer: React.FC = () => {
             Customer Support
           </h3>
           <ul className="space-y-4 text-slate-400">
-            <li><a href="#" className="hover:text-primary-400 hover:underline transition-all">Help Center</a></li>
-            <li><a href="#" className="hover:text-primary-400 hover:underline transition-all">FAQs</a></li>
-            <li><a href="#" className="hover:text-primary-400 hover:underline transition-all">Shipping Info</a></li>
-            <li><a href="#" className="hover:text-primary-400 hover:underline transition-all">Returns & Refunds</a></li>
-            <li><a href="#" className="hover:text-primary-400 hover:underline transition-all">Order Tracking</a></li>
-            <li><a href="#" className="hover:text-primary-400 hover:underline transition-all">Warranty</a></li>
+            <li><a href="/" className="hover:text-primary-400 hover:underline transition-all">Help Center</a></li>
+            <li><a href="/" className="hover:text-primary-400 hover:underline transition-all">FAQs</a></li>
+            <li><a href="/" className="hover:text-primary-400 hover:underline transition-all">Shipping Info</a></li>
+            <li><a href="/" className="hover:text-primary-400 hover:underline transition-all">Returns & Refunds</a></li>
+            <li><a href="/" className="hover:text-primary-400 hover:underline transition-all">Order Tracking</a></li>
+            <li><a href="/" className="hover:text-primary-400 hover:underline transition-all">Warranty</a></li>
           </ul>
         </div>
 
@@ -67,11 +67,11 @@ const Footer: React.FC = () => {
         <div>
           <h3 className="text-lg font-bold text-white mb-6 uppercase tracking-wider">Shop</h3>
           <ul className="space-y-4 text-slate-400">
-            <li><a href="#" className="hover:text-primary-400 hover:underline transition-all">All Products</a></li>
-            <li><a href="#" className="hover:text-primary-400 hover:underline transition-all">Categories</a></li>
-            <li><a href="#" className="hover:text-primary-400 hover:underline transition-all">New Arrivals</a></li>
-            <li><a href="#" className="hover:text-primary-400 hover:underline transition-all">Best Sellers</a></li>
-            <li><a href="#" className="hover:text-primary-400 hover:underline transition-all">Deals & Offers</a></li>
+            <li><a href="/" className="hover:text-primary-400 hover:underline transition-all">All Products</a></li>
+            <li><a href="/" className="hover:text-primary-400 hover:underline transition-all">Categories</a></li>
+            <li><a href="/" className="hover:text-primary-400 hover:underline transition-all">New Arrivals</a></li>
+            <li><a href="/" className="hover:text-primary-400 hover:underline transition-all">Best Sellers</a></li>
+            <li><a href="/" className="hover:text-primary-400 hover:underline transition-all">Deals & Offers</a></li>
           </ul>
         </div>
 

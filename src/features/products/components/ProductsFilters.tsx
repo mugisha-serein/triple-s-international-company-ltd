@@ -6,7 +6,6 @@ export interface FiltersState {
   brand?: string;
   priceMin?: number;
   priceMax?: number;
-  priceRange?: [number, number];
   rating?: string;
   inStock?: boolean;
   onSale?: boolean;
@@ -20,41 +19,47 @@ interface ProductsFiltersProps {
   onChange: (filters: FiltersState) => void;
 }
 
-const categories = ["Electronics", "Fashion", "Home", "Beauty"];
+const categories = ["desktops", "laptops", "printers", "components"];
 
 const ProductsFilters: React.FC<ProductsFiltersProps> = ({
   filters,
   brands = [],
   isMobileOpen = false,
   onClose,
-  onChange
+  onChange,
 }) => {
   const [openDropdowns, setOpenDropdowns] = useState({
     category: true,
     brand: true,
     price: true,
+    rating: true,
   });
 
   const toggleDropdown = (key: keyof typeof openDropdowns) => {
     setOpenDropdowns({ ...openDropdowns, [key]: !openDropdowns[key] });
   };
 
-  const handleCategoryChange = (category: string) => onChange({ ...filters, category });
-  const handleBrandChange = (brand: string) => onChange({ ...filters, brand });
-  const handleCheckboxChange = (key: keyof FiltersState, value: boolean) =>
+  const handleCategoryChange = (category: string) =>
+    onChange({ ...filters, category: filters.category === category ? undefined : category });
+  const handleBrandChange = (brand: string) =>
+    onChange({ ...filters, brand: filters.brand === brand ? undefined : brand });
+  const handleCheckboxChange = (key: "inStock" | "onSale", value: boolean) =>
     onChange({ ...filters, [key]: value });
   const handlePriceChange = (key: "priceMin" | "priceMax", value: string) => {
-    const num = parseFloat(value);
-    onChange({ ...filters, [key]: isNaN(num) ? undefined : num });
+    const num = Number(value);
+    onChange({ ...filters, [key]: Number.isNaN(num) ? undefined : num });
   };
+  const handleRatingChange = (value: string) => {
+    onChange({ ...filters, rating: filters.rating === value ? undefined : value });
+  };
+
   const handleClearAll = () => onChange({});
 
-  // -------------------- Section Renderer --------------------
   const renderSection = (
     title: string,
     open: boolean,
     onToggle: () => void,
-    children: React.ReactNode
+    children: React.ReactNode,
   ) => (
     <div className="border-b border-slate-100 last:border-0 group">
       <button
@@ -68,18 +73,15 @@ const ProductsFilters: React.FC<ProductsFiltersProps> = ({
         </div>
       </button>
       <div
-        className={`overflow-hidden transition-all duration-300 ${open ? "max-h-[500px] mb-6 opacity-100" : "max-h-0 opacity-0"
-          } flex flex-col gap-2`}
+        className={`overflow-hidden transition-all duration-300 ${open ? "max-h-[500px] mb-6 opacity-100" : "max-h-0 opacity-0"} flex flex-col gap-2`}
       >
         {children}
       </div>
     </div>
   );
 
-  // -------------------- Filters Content --------------------
   const filtersContent = (
     <div className="flex flex-col">
-      {/* Header */}
       <div className="flex items-center justify-between mb-8">
         <button
           onClick={handleClearAll}
@@ -89,7 +91,6 @@ const ProductsFilters: React.FC<ProductsFiltersProps> = ({
         </button>
       </div>
 
-      {/* Category Section */}
       {renderSection(
         "Category",
         openDropdowns.category,
@@ -99,8 +100,8 @@ const ProductsFilters: React.FC<ProductsFiltersProps> = ({
             <button
               key={cat}
               className={`text-left w-full px-4 py-3 rounded-2xl text-[11px] font-black uppercase tracking-widest transition-all duration-300 group/btn relative overflow-hidden ${filters.category === cat
-                  ? "bg-slate-900 text-white shadow-xl shadow-slate-900/20 translate-x-1"
-                  : "hover:bg-slate-100 text-slate-500 hover:text-slate-900"
+                ? "bg-slate-900 text-white shadow-xl shadow-slate-900/20 translate-x-1"
+                : "hover:bg-slate-100 text-slate-500 hover:text-slate-900"
                 }`}
               onClick={() => handleCategoryChange(cat)}
             >
@@ -110,34 +111,33 @@ const ProductsFilters: React.FC<ProductsFiltersProps> = ({
               )}
             </button>
           ))}
-        </div>
+        </div>,
       )}
 
-      {/* Brand Section */}
-      {brands.length > 0 && renderSection(
-        "Brand",
-        openDropdowns.brand,
-        () => toggleDropdown("brand"),
-        <div className="grid grid-cols-1 gap-1">
-          {brands.map((brand) => (
-            <button
-              key={brand}
-              className={`text-left w-full px-4 py-3 rounded-2xl text-[11px] font-black uppercase tracking-widest transition-all duration-300 relative overflow-hidden ${filters.brand === brand
+      {brands.length > 0 &&
+        renderSection(
+          "Brand",
+          openDropdowns.brand,
+          () => toggleDropdown("brand"),
+          <div className="grid grid-cols-1 gap-1">
+            {brands.map((brand) => (
+              <button
+                key={brand}
+                className={`text-left w-full px-4 py-3 rounded-2xl text-[11px] font-black uppercase tracking-widest transition-all duration-300 relative overflow-hidden ${filters.brand === brand
                   ? "bg-slate-900 text-white shadow-xl shadow-slate-900/20 translate-x-1"
                   : "hover:bg-slate-100 text-slate-500 hover:text-slate-900"
-                }`}
-              onClick={() => handleBrandChange(brand)}
-            >
-              <span className="relative z-10">{brand}</span>
-              {filters.brand === brand && (
-                <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary-600" />
-              )}
-            </button>
-          ))}
-        </div>
-      )}
+                  }`}
+                onClick={() => handleBrandChange(brand)}
+              >
+                <span className="relative z-10">{brand}</span>
+                {filters.brand === brand && (
+                  <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary-600" />
+                )}
+              </button>
+            ))}
+          </div>,
+        )}
 
-      {/* Price Section */}
       {renderSection(
         "Price Range",
         openDropdowns.price,
@@ -165,10 +165,26 @@ const ProductsFilters: React.FC<ProductsFiltersProps> = ({
               />
             </div>
           </div>
-        </div>
+        </div>,
       )}
 
-      {/* Stock / Sale Section */}
+      {renderSection(
+        "Rating",
+        openDropdowns.rating,
+        () => toggleDropdown("rating"),
+        <div className="grid grid-cols-1 gap-1">
+          {["4", "3", "2"].map((value) => (
+            <button
+              key={value}
+              className={`text-left w-full px-4 py-3 rounded-2xl text-[11px] font-black uppercase tracking-widest transition-all duration-300 ${filters.rating === value ? "bg-slate-900 text-white" : "hover:bg-slate-100 text-slate-500 hover:text-slate-900"}`}
+              onClick={() => handleRatingChange(value)}
+            >
+              {value}+ Stars
+            </button>
+          ))}
+        </div>,
+      )}
+
       <div className="mt-6 flex flex-col gap-3">
         <label className="flex items-center justify-between group cursor-pointer p-4 bg-slate-50 rounded-[1.5rem] hover:bg-slate-100 transition-colors duration-300">
           <span className="text-[10px] font-black uppercase tracking-widest text-slate-600">In Stock</span>
@@ -201,12 +217,10 @@ const ProductsFilters: React.FC<ProductsFiltersProps> = ({
 
   return (
     <>
-      {/* Desktop Sidebar - Clean Glassmorphism Aesthetics */}
       <aside className="hidden md:block sticky top-24 w-72 max-h-[calc(100vh-8rem)] overflow-y-auto pr-6 custom-scrollbar animate-fade-in-up stagger-3">
         {filtersContent}
       </aside>
 
-      {/* Mobile Drawer */}
       {isMobileOpen && (
         <div className="fixed inset-0 z-[100] flex md:hidden">
           <div
@@ -220,9 +234,7 @@ const ProductsFilters: React.FC<ProductsFiltersProps> = ({
             >
               <FiX className="w-6 h-6" />
             </button>
-            <div className="mt-4">
-              {filtersContent}
-            </div>
+            <div className="mt-4">{filtersContent}</div>
           </div>
         </div>
       )}
