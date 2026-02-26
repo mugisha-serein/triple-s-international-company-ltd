@@ -19,7 +19,7 @@ interface ProductsFiltersProps {
   onChange: (filters: FiltersState) => void;
 }
 
-const categories = ["desktops", "laptops", "printers", "components"];
+const categories = ["electronics", "fashion", "home", "beauty"];
 
 const ProductsFilters: React.FC<ProductsFiltersProps> = ({
   filters,

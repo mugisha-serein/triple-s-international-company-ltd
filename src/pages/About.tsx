@@ -9,16 +9,9 @@ const About: React.FC = () => {
           Triple S International Company Ltd.
         </h1>
         <p className="text-slate-600 text-lg max-w-3xl">
-          We specialize in repairing computers and printers while also selling desktops, laptops, printers, and core computer components for homes, schools, and businesses.
+          We deliver quality consumer products across electronics, home, beauty, and fashion with a strong focus on reliability, premium service, and modern shopping experiences.
         </p>
 
-
-        <div className="rounded-3xl border border-amber-200 bg-amber-50 p-6">
-          <h2 className="text-lg font-black text-amber-800 mb-2">Services we do not offer</h2>
-          <p className="text-amber-700 font-medium">
-            We do not repair headphones, smartphones, tablets, or smartwatches. Our services are focused on computers, desktops, laptops, printers, and computer accessories.
-          </p>
-        </div>
         <section className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
           {[
             { title: "Quality First", text: "Every item is sourced and checked to ensure long-term value." },
