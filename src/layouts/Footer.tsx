@@ -27,8 +27,8 @@ const Footer: React.FC = () => {
             Triple S <span className="text-primary-500">Intl.</span>
           </h2>
           <p className="text-slate-400 leading-relaxed text-sm md:text-base max-w-sm">
-            Quality products, fast delivery, and trusted service worldwide.
-            Shop with confidence — secure checkout and premium customer support.
+            Computer repair experts with trusted desktop, laptop, and printer sales.
+            Shop with confidence — professional support and dependable service.
           </p>
 
           {/* Social Icons */}

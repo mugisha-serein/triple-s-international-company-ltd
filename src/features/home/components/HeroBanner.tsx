@@ -5,24 +5,24 @@ import { Link } from "react-router-dom";
 
 const banners = [
   {
-    title: "Triple S International",
-    subtitle: "Global Hub for Premium Electronics & Fashion",
+    title: "Triple S Computer & Print Center",
+    subtitle: "Repairing computers and printers, plus trusted desktop and laptop sales",
     image: "https://images.unsplash.com/photo-1498049794561-7780e7231661?auto=format&fit=crop&q=80&w=2070",
     cta: "Shop Now",
     link: "/products",
   },
   {
-    title: "Exclusive Collection",
-    subtitle: "Curated styles from international designers",
-    image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&q=80&w=2070",
+    title: "Desktop & Laptop Sales",
+    subtitle: "Reliable business and office systems from top computer brands",
+    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=2070",
     cta: "Explore Store",
     link: "/products",
   },
   {
-    title: "Elite Technology",
-    subtitle: "The perfect finish for every occasion",
+    title: "Printer Repair & Maintenance",
+    subtitle: "Fast diagnostics, parts replacement, and quality servicing. No headphone, smartphone, tablet, or smartwatch repair.",
     image: "https://images.unsplash.com/photo-1550009158-9ebf69173e03?auto=format&fit=crop&q=80&w=2070",
-    cta: "View Collection",
+    cta: "Book Service",
     link: "/products",
   },
 ];
