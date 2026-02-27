@@ -22,9 +22,12 @@ interface Product {
 const products: Product[] = [
   {
     id: 1,
-    name: "Aura Noise-Cancelling Headphones",
-    category: "Audio",
-    images: ["https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&q=80&w=800", "https://images.unsplash.com/photo-1484704849700-f032a568e945?auto=format&fit=crop&q=80&w=800"],
+    name: "Custom Desktop Build Service",
+    category: "Desktop Service",
+    images: [
+      "https://images.unsplash.com/photo-1587831990711-23ca6441447b?auto=format&fit=crop&q=80&w=800",
+      "https://images.unsplash.com/photo-1593640495393-e2b0c2e8f8a9?auto=format&fit=crop&q=80&w=800"
+    ],
     price: 349,
     originalPrice: 399,
     discount: 12,
@@ -36,10 +39,13 @@ const products: Product[] = [
   },
   {
     id: 2,
-    name: "Vantage Series 7 Smart Watch",
-    category: "Wearables",
-    images: ["https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80&w=800", "https://images.unsplash.com/photo-1508685096489-77a46835e0f9?auto=format&fit=crop&q=80&w=800"],
-    price: 499,
+    name: "Office Printer Setup Package",
+    category: "Printer Service",
+    images: [
+      "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?auto=format&fit=crop&q=80&w=800",
+      "https://images.unsplash.com/photo-1563861826100-9cb868fdbe1c?auto=format&fit=crop&q=80&w=800"
+    ],
+    price: 149,
     rating: 4.9,
     reviews: 856,
     stock: 5,
@@ -48,9 +54,12 @@ const products: Product[] = [
   },
   {
     id: 3,
-    name: "Precision Drift Gaming Mouse",
-    category: "Computing",
-    images: ["https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&q=80&w=800", "https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?auto=format&fit=crop&q=80&w=800"],
+    name: "Desktop SSD Upgrade Kit",
+    category: "Accessories",
+    images: [
+      "https://images.unsplash.com/photo-1591488320449-011701bb6704?auto=format&fit=crop&q=80&w=800",
+      "https://images.unsplash.com/photo-1518773553398-650c184e0bb3?auto=format&fit=crop&q=80&w=800"
+    ],
     price: 89,
     rating: 4.7,
     reviews: 320,
@@ -59,9 +68,12 @@ const products: Product[] = [
   },
   {
     id: 4,
-    name: "Sonic Boom 360 Speaker",
-    category: "Home Audio",
-    images: ["https://images.unsplash.com/photo-1608156639585-34a072bfef4c?auto=format&fit=crop&q=80&w=800", "https://images.unsplash.com/photo-1589492477829-5e65395b66cc?auto=format&fit=crop&q=80&w=800"],
+    name: "Laptop Performance Upgrade",
+    category: "Laptop Service",
+    images: [
+      "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&q=80&w=800",
+      "https://images.unsplash.com/photo-1517336714739-489689fd1ca8?auto=format&fit=crop&q=80&w=800"
+    ],
     price: 129,
     rating: 4.5,
     reviews: 145,
@@ -71,11 +83,14 @@ const products: Product[] = [
   },
   {
     id: 5,
-    name: "Lumina RGB Mechanical Keyboard",
-    category: "Computing",
-    images: ["https://images.unsplash.com/photo-1511467687858-23d96c32e4ae?auto=format&fit=crop&q=80&w=800", "https://images.unsplash.com/photo-1595225476474-87563907a212?auto=format&fit=crop&q=80&w=800"],
-    price: 199,
-    originalPrice: 249,
+    name: "Office Desktop Bundle",
+    category: "Desktop PCs",
+    images: [
+      "https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&q=80&w=800",
+      "https://images.unsplash.com/photo-1593642634443-44adaa06623a?auto=format&fit=crop&q=80&w=800"
+    ],
+    price: 1199,
+    originalPrice: 1299,
     rating: 5.0,
     reviews: 210,
     stock: 12,
@@ -83,13 +98,16 @@ const products: Product[] = [
   },
   {
     id: 6,
-    name: "X-Pro Drone 4K Edition",
-    category: "Photography",
-    images: ["https://images.unsplash.com/photo-1473968512647-3e44a224fe8f?auto=format&fit=crop&q=80&w=800", "https://images.unsplash.com/photo-1507582020474-9a35b7d455d9?auto=format&fit=crop&q=80&w=800"],
-    price: 899,
+    name: "Desktop Cleaning & Tune-up",
+    category: "Desktop Service",
+    images: [
+      "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=800",
+      "https://images.unsplash.com/photo-1580894908361-967195033215?auto=format&fit=crop&q=80&w=800"
+    ],
+    price: 99,
     rating: 4.8,
     reviews: 89,
-    stock: 3,
+    stock: 24,
     isNew: true,
     isFavorite: false,
   }
@@ -122,10 +140,10 @@ const FeaturedProducts: React.FC = () => {
       <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
         <div className="flex flex-col items-center mb-16 space-y-4">
           <h2 className="text-4xl md:text-6xl font-black text-slate-900 text-center tracking-tight animate-fade-in-up">
-            Latest <span className="text-primary-600">Collections</span>
+            Featured <span className="text-primary-600">Repairs & Sales</span>
           </h2>
           <p className="text-slate-500 text-center max-w-2xl font-medium animate-fade-in-up stagger-1">
-            Handpicked premium essentials for your daily lifestyle. Experience the pinnacle of international design.
+            Repair services and hardware picks for desktop, laptop, and printer users.
           </p>
         </div>
 
