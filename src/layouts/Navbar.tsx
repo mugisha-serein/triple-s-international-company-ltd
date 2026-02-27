@@ -5,6 +5,7 @@ import { Link, NavLink } from "react-router-dom";
 const Navbar: React.FC = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
+  const mobileButtonRef = useRef<HTMLDivElement>(null);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const profileMenuRef = useRef<HTMLDivElement>(null);
 
@@ -15,7 +16,12 @@ const Navbar: React.FC = () => {
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       // Handle mobile menu
-      if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target as Node)) {
+      const isClickInsideMobile = (
+        (mobileButtonRef.current && mobileButtonRef.current.contains(event.target as Node)) ||
+        (mobileMenuRef.current && mobileMenuRef.current.contains(event.target as Node))
+      );
+
+      if (!isClickInsideMobile) {
         setMobileOpen(false);
       }
       // Handle profile dropdown
@@ -111,7 +117,7 @@ const Navbar: React.FC = () => {
               </NavLink>
 
               {/* Mobile Menu Button (Hamburger) */}
-              <div className="md:hidden ml-1" ref={mobileMenuRef}>
+              <div className="md:hidden ml-1" ref={mobileButtonRef}>
                 <button
                   onClick={toggleMobileMenu}
                   className="text-slate-700 hover:text-primary-600 focus:outline-none bg-slate-100/50 rounded-2xl p-3 hover:bg-slate-100 transition-all active:scale-95"
@@ -126,6 +132,7 @@ const Navbar: React.FC = () => {
 
       {/* Mobile Menu (Links Only) */}
       <div
+        ref={mobileMenuRef}
         className={`md:hidden absolute top-full left-4 right-4 mt-2 transition-all duration-300 ease-out z-50 ${mobileOpen
           ? "opacity-100 translate-y-0 pointer-events-auto"
           : "opacity-0 -translate-y-4 pointer-events-none"
