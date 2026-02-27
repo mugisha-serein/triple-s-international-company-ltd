@@ -17,11 +17,11 @@ const HeroSection: React.FC = () => {
         <h1 className="text-4xl md:text-5xl font-extrabold text-white drop-shadow-lg mb-4">
           Triple S International Company Ltd
         </h1>
-        
+
         <p className="text-2xl md:text-3xl text-white/90 drop-shadow-md mb-2">
           Welcome Back!
         </p>
-        
+
         <p className="text-base md:text-lg text-white/80 drop-shadow-sm max-w-md">
           Login to access your account, track orders, and enjoy exclusive deals!
         </p>

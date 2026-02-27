@@ -6,7 +6,7 @@ interface ProductsHeaderProps {
   totalCount?: number;
 }
 
-const ProductsHeader: React.FC<ProductsHeaderProps> = () => {
+const ProductsHeader: React.FC<ProductsHeaderProps> = ({ totalCount = 0 }) => {
   return (
     <header className="relative mb-4 animate-fade-in-up">
       {/* Breadcrumb - Clean & Minimal */}
@@ -36,8 +36,11 @@ const ProductsHeader: React.FC<ProductsHeaderProps> = () => {
       {/* Main Header Content */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-slate-100 pb-6 stagger-2">
         <div className="space-y-3">
-          <h1 className="text-5xl md:text-5xl font-black text-slate-900 tracking-tight leading-[0.2]">
+          <h1 className="text-5xl md:text-5xl font-black text-slate-900 tracking-tight leading-tight">
             All <span className="text-primary-600">Products</span>
+            <span className="ml-4 text-sm font-black text-slate-300 uppercase tracking-widest align-middle">
+              ({totalCount})
+            </span>
           </h1>
         </div>
       </div>

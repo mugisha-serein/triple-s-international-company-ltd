@@ -8,7 +8,6 @@ import { FaFacebookF } from "react-icons/fa";
 import Input from "../components/Input/Input";
 import PasswordInput from "../components/Input/PasswordInput";
 import Button from "../components/Button/Button";
-import HeroSection from "../features/auth/components/HeroSection";
 
 // Validation schema
 const registerSchema = z
@@ -47,8 +46,6 @@ const Register: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row">
-      {/* Hero Section */}
-      <HeroSection />
 
       {/* Register Form */}
       <div className="flex flex-1 justify-center items-center px-6 py-16 md:py-24 bg-gray-50">

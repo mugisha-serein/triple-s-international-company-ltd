@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FiChevronDown, FiX } from "react-icons/fi";
+import { FiChevronDown, FiX, FiFilter, FiRotateCcw } from "react-icons/fi";
 
 export interface FiltersState {
   category?: string;
@@ -19,30 +19,23 @@ interface ProductsFiltersProps {
   onChange: (filters: FiltersState) => void;
 }
 
-const categories = ["electronics", "fashion", "home", "beauty"];
-
 const ProductsFilters: React.FC<ProductsFiltersProps> = ({
   filters,
-  brands = [],
   isMobileOpen = false,
   onClose,
   onChange,
 }) => {
   const [openDropdowns, setOpenDropdowns] = useState({
-    category: true,
-    brand: true,
-    price: true,
-    rating: true,
+    category: false,
+    brand: false,
+    price: false,
+    rating: false,
   });
 
   const toggleDropdown = (key: keyof typeof openDropdowns) => {
     setOpenDropdowns({ ...openDropdowns, [key]: !openDropdowns[key] });
   };
 
-  const handleCategoryChange = (category: string) =>
-    onChange({ ...filters, category: filters.category === category ? undefined : category });
-  const handleBrandChange = (brand: string) =>
-    onChange({ ...filters, brand: filters.brand === brand ? undefined : brand });
   const handleCheckboxChange = (key: "inStock" | "onSale", value: boolean) =>
     onChange({ ...filters, [key]: value });
   const handlePriceChange = (key: "priceMin" | "priceMax", value: string) => {
@@ -80,14 +73,31 @@ const ProductsFilters: React.FC<ProductsFiltersProps> = ({
     </div>
   );
 
+  const apiErrorNotice = (type: string) => (
+    <div className="p-4 bg-slate-50 border border-slate-100 rounded-2xl animate-fade-in">
+      <div className="flex items-center gap-3 text-rose-500">
+        <div className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse" />
+        <span className="text-[9px] font-black uppercase tracking-widest">System Message</span>
+      </div>
+      <p className="text-[10px] font-bold text-slate-500 leading-relaxed uppercase tracking-wider">
+        The {type} list will be automatically updated by backend APIs. Dynamic selection is currently unavailable.
+      </p>
+    </div>
+  );
+
   const filtersContent = (
-    <div className="flex flex-col">
-      <div className="flex items-center justify-between mb-8">
+    <div className="flex flex-col bg-white border-r border-slate-100 h-full w-full p-6">
+      <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-6">
+        <div className="flex items-center gap-3 text-slate-900">
+          <FiFilter className="w-4 h-4" />
+          <span className="text-[11px] font-black uppercase tracking-[0.2em]">Filters</span>
+        </div>
         <button
           onClick={handleClearAll}
-          className="text-[10px] font-bold text-slate-400 hover:text-rose-500 uppercase tracking-widest transition-colors duration-300"
+          className="group flex items-center gap-2 px-4 py-2 rounded-xl hover:bg-rose-50 text-slate-400 hover:text-rose-600 transition-all duration-300 active:scale-95"
         >
-          Reset
+          <FiRotateCcw className="w-3.5 h-3.5 group-hover:rotate-[-45deg] transition-transform duration-500" />
+          <span className="text-[10px] font-black uppercase tracking-widest">Reset All</span>
         </button>
       </div>
 
@@ -95,48 +105,15 @@ const ProductsFilters: React.FC<ProductsFiltersProps> = ({
         "Category",
         openDropdowns.category,
         () => toggleDropdown("category"),
-        <div className="grid grid-cols-1 gap-1">
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              className={`text-left w-full px-4 py-3 rounded-2xl text-[11px] font-black uppercase tracking-widest transition-all duration-300 group/btn relative overflow-hidden ${filters.category === cat
-                ? "bg-slate-900 text-white shadow-xl shadow-slate-900/20 translate-x-1"
-                : "hover:bg-slate-100 text-slate-500 hover:text-slate-900"
-                }`}
-              onClick={() => handleCategoryChange(cat)}
-            >
-              <span className="relative z-10">{cat}</span>
-              {filters.category === cat && (
-                <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary-600" />
-              )}
-            </button>
-          ))}
-        </div>,
+        apiErrorNotice("category")
       )}
 
-      {brands.length > 0 &&
-        renderSection(
-          "Brand",
-          openDropdowns.brand,
-          () => toggleDropdown("brand"),
-          <div className="grid grid-cols-1 gap-1">
-            {brands.map((brand) => (
-              <button
-                key={brand}
-                className={`text-left w-full px-4 py-3 rounded-2xl text-[11px] font-black uppercase tracking-widest transition-all duration-300 relative overflow-hidden ${filters.brand === brand
-                  ? "bg-slate-900 text-white shadow-xl shadow-slate-900/20 translate-x-1"
-                  : "hover:bg-slate-100 text-slate-500 hover:text-slate-900"
-                  }`}
-                onClick={() => handleBrandChange(brand)}
-              >
-                <span className="relative z-10">{brand}</span>
-                {filters.brand === brand && (
-                  <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary-600" />
-                )}
-              </button>
-            ))}
-          </div>,
-        )}
+      {renderSection(
+        "Brand",
+        openDropdowns.brand,
+        () => toggleDropdown("brand"),
+        apiErrorNotice("brand")
+      )}
 
       {renderSection(
         "Price Range",
@@ -186,7 +163,7 @@ const ProductsFilters: React.FC<ProductsFiltersProps> = ({
       )}
 
       <div className="mt-6 flex flex-col gap-3">
-        <label className="flex items-center justify-between group cursor-pointer p-4 bg-slate-50 rounded-[1.5rem] hover:bg-slate-100 transition-colors duration-300">
+        <label className="flex items-center justify-between group cursor-pointer p-6 bg-slate-50 rounded-[1.5rem] hover:bg-slate-100 transition-colors duration-300">
           <span className="text-[10px] font-black uppercase tracking-widest text-slate-600">In Stock</span>
           <div className="relative inline-flex items-center cursor-pointer">
             <input
@@ -217,7 +194,7 @@ const ProductsFilters: React.FC<ProductsFiltersProps> = ({
 
   return (
     <>
-      <aside className="hidden md:block sticky top-24 w-72 max-h-[calc(100vh-8rem)] overflow-y-auto pr-6 custom-scrollbar animate-fade-in-up stagger-3">
+      <aside className="hidden lg:block w-full h-full overflow-y-auto no-scrollbar animate-fade-in-up stagger-3">
         {filtersContent}
       </aside>
 
@@ -227,14 +204,14 @@ const ProductsFilters: React.FC<ProductsFiltersProps> = ({
             className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm animate-fade-in"
             onClick={onClose}
           />
-          <div className="relative bg-white w-[85%] max-w-sm p-8 h-full shadow-2xl overflow-y-auto animate-slide-in-right">
+          <div className="relative bg-white w-[85%] max-w-sm p-4 h-full shadow-2xl overflow-y-auto animate-slide-in-right">
             <button
-              className="absolute top-6 right-6 p-3 rounded-2xl bg-slate-100 text-slate-900 hover:bg-slate-200 transition-colors"
+              className="absolute top-4 right-6 p-3 rounded-2xl bg-slate-100 text-slate-900 hover:bg-slate-200 transition-colors"
               onClick={onClose}
             >
               <FiX className="w-6 h-6" />
             </button>
-            <div className="mt-4">{filtersContent}</div>
+            <div className="mt-14">{filtersContent}</div>
           </div>
         </div>
       )}

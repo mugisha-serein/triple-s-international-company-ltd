@@ -3,30 +3,27 @@ import ProductsHeader from "../features/products/components/ProductsHeader";
 import ProductsToolbar from "../features/products/components/ProductsToolbar";
 import ProductsFilters, { type FiltersState } from "../features/products/components/ProductsFilters";
 import ProductsGrid from "../features/products/components/ProductsGrid";
-import ProductsPagination from "../features/products/components/ProductsPagination";
-import productsData from "../hooks/products";
-
-const ITEMS_PER_PAGE = 9;
+import { productsData } from "../hooks/products";
 
 const Products = () => {
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("latest");
-  const [currentPage, setCurrentPage] = useState(1);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [filters, setFilters] = useState<FiltersState>({});
 
   const brands = useMemo(
-    () => Array.from(new Set(productsData.map((product) => product.brand))),
-    [],
+    () => Array.from(new Set((productsData || []).map((product) => product.brand))),
+    [productsData],
   );
 
   const processedProducts = useMemo(() => {
-    let result = [...productsData];
+    let result = [...(productsData || [])];
 
     if (search.trim()) {
+      const searchLower = search.toLowerCase();
       result = result.filter((p) =>
-        p.name.toLowerCase().includes(search.toLowerCase()) ||
-        p.brand.toLowerCase().includes(search.toLowerCase()),
+        p.name.toLowerCase().includes(searchLower) ||
+        p.brand.toLowerCase().includes(searchLower),
       );
     }
 
@@ -75,54 +72,48 @@ const Products = () => {
     }
 
     return result;
-  }, [search, filters, sort]);
-
-  const totalPages = Math.ceil(processedProducts.length / ITEMS_PER_PAGE);
-
-  const paginatedProducts = useMemo(() => {
-    const start = (currentPage - 1) * ITEMS_PER_PAGE;
-    return processedProducts.slice(start, start + ITEMS_PER_PAGE);
-  }, [processedProducts, currentPage]);
-
-  const handleFilterChange = (cb: () => void) => {
-    cb();
-    setCurrentPage(1);
-  };
+  }, [search, filters, sort, productsData]);
 
   return (
-    <div className="max-w-full mx-auto px-6 py-10">
-      <ProductsHeader totalCount={processedProducts.length} />
+    <div className="flex flex-col h-[calc(100vh-80px)] overflow-hidden bg-white">
+      <div className="flex-none px-6 pt-10">
+        <ProductsHeader totalCount={processedProducts.length} />
 
-      <ProductsToolbar
-        search={search}
-        onSearch={(v) => handleFilterChange(() => setSearch(v))}
-        sort={sort}
-        onSort={(v) => handleFilterChange(() => setSort(v))}
-        onOpenFilters={() => setIsFilterOpen(true)}
-      />
+        <ProductsToolbar
+          search={search}
+          onSearch={setSearch}
+          sort={sort}
+          onSort={setSort}
+          onOpenFilters={() => setIsFilterOpen(true)}
+        />
+      </div>
 
-      <div className="flex gap-8 mt-8">
+      <div className="flex-1 flex overflow-hidden min-h-0">
+        <div className="flex-none w-[20%] hidden lg:block overflow-hidden no-scrollbar">
+          <ProductsFilters
+            filters={filters}
+            brands={brands}
+            isMobileOpen={isFilterOpen}
+            onClose={() => setIsFilterOpen(false)}
+            onChange={setFilters}
+          />
+        </div>
+
+        <div className="flex-1 overflow-y-auto px-6 pb-10 no-scrollbar">
+          <ProductsGrid products={processedProducts} loading={false} />
+        </div>
+      </div>
+
+      {/* Mobile Filter Drawer Overlay - handled within components but context kept here */}
+      <div className="lg:hidden">
         <ProductsFilters
           filters={filters}
           brands={brands}
           isMobileOpen={isFilterOpen}
           onClose={() => setIsFilterOpen(false)}
-          onChange={(nextFilters) => {
-            setFilters(nextFilters);
-            setCurrentPage(1);
-          }}
+          onChange={setFilters}
         />
-
-        <ProductsGrid products={paginatedProducts} loading={false} />
       </div>
-
-      {totalPages > 1 && (
-        <ProductsPagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={setCurrentPage}
-        />
-      )}
     </div>
   );
 };

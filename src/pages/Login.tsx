@@ -8,7 +8,6 @@ import { FaFacebookF } from "react-icons/fa";
 import Input from "../components/Input/Input";
 import PasswordInput from "../components/Input/PasswordInput";
 import Button from "../components/Button/Button";
-import HeroSection from "../features/auth/components/HeroSection";
 
 const loginSchema = z.object({
   email: z.string().email("Invalid email").nonempty("Email required"),
@@ -31,8 +30,6 @@ const Login: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row">
-      {/* Hero Section */}
-      <HeroSection />
 
       {/* Login Form Section */}
       <div className="flex flex-1 justify-center items-center px-6 py-16 md:py-24 bg-gray-50">

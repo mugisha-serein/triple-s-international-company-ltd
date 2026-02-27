@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, memo } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import { FaHeart, FaStar, FaEye, FaShoppingCart } from "react-icons/fa";
@@ -133,7 +133,7 @@ const FeaturedProducts: React.FC = () => {
   };
 
   return (
-    <section className="py-6 bg-slate-50 relative overflow-hidden group/section">
+    <section className="py-6 bg-slate-50 relative overflow-hidden group/section gpu-accelerated">
       <div className="absolute top-0 right-0 w-[40rem] h-[40rem] bg-primary-200/10 blur-[150px] rounded-full -translate-y-1/2 translate-x-1/2 pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-[30rem] h-[30rem] bg-slate-300/10 blur-[120px] rounded-full translate-y-1/2 -translate-x-1/2 pointer-events-none" />
 
@@ -179,24 +179,23 @@ const FeaturedProducts: React.FC = () => {
               return (
                 <SwiperSlide key={product.id}>
                   <div
-                    className={`flex flex-col h-full relative group transition-all duration-300 stagger-${(index % 4) + 1}`}
+                    className={`flex flex-col h-full relative group transition-all duration-300 stagger-${(index % 4) + 1} gpu-accelerated hover-lift`}
                     onMouseEnter={() => setHoveredProduct(product.id)}
                     onMouseLeave={() => setHoveredProduct(null)}
                   >
-                    {/* Unified Image Overlay Container - Increased Height (aspect-[2/3]) */}
                     <div className="w-full aspect-[2/3] overflow-hidden rounded-[2rem] relative bg-slate-100 shadow-xl shadow-slate-200/50">
-                      {/* Background Reveal Blur & Gradient Shadow */}
                       <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 z-10" />
                       <div className="absolute inset-0 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-all duration-500 z-10" />
 
                       <img
                         src={mainImage}
                         alt={product.name}
+                        width="800"
+                        height="1200"
                         className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                         loading="lazy"
                       />
 
-                      {/* Top Badges & Heart Icon */}
                       <div className="absolute top-5 left-5 right-5 flex justify-between items-start z-20">
                         <div className="flex flex-col gap-2">
                           {product.discount && (
@@ -211,19 +210,15 @@ const FeaturedProducts: React.FC = () => {
                           )}
                         </div>
 
-                        {/* Persistent Wishlist Button */}
                         <button
                           onClick={() => toggleWishlist(product.id)}
-                          className={`p-3 rounded-2xl bg-white/40 backdrop-blur-md border border-white/20 transition-all duration-300 hover:bg-white hover:text-rose-500 ${isInWishlist ? 'text-rose-500 bg-white shadow-lg' : 'text-white'}`}
+                          className={`p-3 rounded-2xl bg-white/40 backdrop-blur-md border border-white/20 transition-all duration-300 hover:bg-white hover:text-rose-500 active-scale ${isInWishlist ? 'text-rose-500 bg-white shadow-lg' : 'text-white'}`}
                         >
                           <FaHeart className="w-4 h-4" />
                         </button>
                       </div>
 
-                      {/* Content Overlay */}
                       <div className="absolute inset-0 flex flex-col justify-end p-5 z-20 pointer-events-none group-hover:pointer-events-auto">
-
-                        {/* Details Staggered from Left */}
                         <div className="mb-6 space-y-2 overflow-hidden">
                           <span className="text-[10px] font-black text-primary-400 uppercase tracking-[0.2em] block translate-x-[-20px] opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-300 ease-out delay-[50ms]">
                             {product.category}
@@ -237,7 +232,6 @@ const FeaturedProducts: React.FC = () => {
                           </div>
                         </div>
 
-                        {/* Bottom Section: Price + Actions Reveal */}
                         <div className="flex items-center justify-between translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 ease-out delay-[200ms]">
                           <div className="flex flex-col">
                             {product.originalPrice && (
@@ -246,12 +240,11 @@ const FeaturedProducts: React.FC = () => {
                             <span className="text-white font-black text-3xl tracking-tighter">${product.price}</span>
                           </div>
 
-                          {/* Action Row (Heart removed from here) */}
                           <div className="flex gap-2">
-                            <button className="p-3.5 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 text-white transition-all duration-300 hover:bg-primary-600 hover:border-primary-600">
+                            <button className="p-3.5 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 text-white transition-all duration-300 hover:bg-primary-600 hover:border-primary-600 active-scale">
                               <FaEye className="w-4 h-4" />
                             </button>
-                            <button className="p-4 rounded-2xl bg-primary-600 text-white shadow-xl shadow-primary-900/40 hover:bg-primary-500 transition-all duration-300 active:scale-90 flex items-center justify-center gap-2 px-6">
+                            <button className="p-4 rounded-2xl bg-primary-600 text-white shadow-xl shadow-primary-900/40 hover:bg-primary-500 transition-all duration-300 active-scale flex items-center justify-center gap-2 px-6">
                               <FaShoppingCart className="w-4 h-4" />
                               <span className="text-[10px] font-black uppercase tracking-widest hidden md:block">Add</span>
                             </button>
@@ -265,7 +258,6 @@ const FeaturedProducts: React.FC = () => {
             })}
           </Swiper>
 
-          {/* Custom Pagination */}
           <div className="products-pagination flex justify-center items-center" />
         </div>
       </div>
@@ -273,4 +265,4 @@ const FeaturedProducts: React.FC = () => {
   );
 };
 
-export default FeaturedProducts;
+export default memo(FeaturedProducts);
